@@ -11,8 +11,12 @@ graph "Kapalla" {
     C -- D [weight=1, color="white"];
   }
 
-  G [shape="circle"];
-  H [shape="circle"];
+  subgraph cluster_GH {
+    style="dotted";
+    G [shape="circle"];
+    H [shape="circle"];
+    G -- H [weight=1, color="white"];
+  }
 
   subgraph cluster_IJ {
     style="dotted";
@@ -53,8 +57,6 @@ graph "Kapalla" {
     F -- T [weight=1, color="white"];
   }
 
-  U [shape="circle"];
-
   subgraph cluster_VW {
     style="dotted";
     V [shape="circle"];
@@ -73,7 +75,13 @@ graph "Kapalla" {
   n2 [shape="square", label="2"];
   n3 [shape="square", label="3"];
   n4 [shape="square", label="4"];
-  n6 [shape="square", label="6"];
+
+  subgraph cluster_Un6 {
+    style="dotted";
+    U [shape="circle"];
+    n6 [shape="square", label="6"];
+    U -- n6 [weight=1, color="white"];
+  }
   
   subgraph cluster_n0n7 {
     style="dotted";
