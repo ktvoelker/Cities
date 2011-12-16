@@ -1,0 +1,111 @@
+
+graph "Kapalla" {
+
+  A [shape="circle"];
+  B [shape="circle"];
+
+  subgraph cluster_CD {
+    style="dotted";
+    C [shape="circle"];
+    D [shape="circle"];
+    C -- D [weight=1, color="white"];
+  }
+
+  G [shape="circle"];
+  H [shape="circle"];
+
+  subgraph cluster_IJ {
+    style="dotted";
+    I [shape="circle"];
+    J [shape="circle"];
+    I -- J [weight=1, color="white"];
+  }
+
+  K [shape="circle"];
+
+  subgraph cluster_LM {
+    style="dotted";
+    L [shape="circle"];
+    M [shape="circle"];
+    L -- M [weight=1, color="white"];
+  }
+
+  subgraph cluster_NO {
+    style="dotted";
+    N [shape="circle"];
+    O [shape="circle"];
+    N -- O [weight=1, color="white"];
+  }
+
+  P [shape="circle"];
+
+  subgraph cluster_QR {
+    style="dotted";
+    Q [shape="circle"];
+    R [shape="circle"];
+    Q -- R [weight=1, color="white"];
+  }
+
+  subgraph cluster_FT {
+    style="dotted";
+    F [shape="circle"];
+    T [shape="circle"];
+    F -- T [weight=1, color="white"];
+  }
+
+  U [shape="circle"];
+
+  subgraph cluster_VW {
+    style="dotted";
+    V [shape="circle"];
+    W [shape="circle"];
+    V -- W [weight=1, color="white"];
+  }
+
+  subgraph cluster_SX {
+    style="dotted";
+    S [shape="circle"];
+    X [shape="circle"];
+    S -- X [weight=1, color="white"];
+  }
+
+  n1 [shape="square", label="1"];
+  n2 [shape="square", label="2"];
+  n3 [shape="square", label="3"];
+  n4 [shape="square", label="4"];
+  n6 [shape="square", label="6"];
+  
+  subgraph cluster_n0n7 {
+    style="dotted";
+    n0 [shape="square", label="0"];
+    n7 [shape="square", label="7"];
+    n0 -- n7 [weight=1, color="white"];
+  }
+
+  n8 [shape="square", label="8"];
+  n9 [shape="square", label="9"];
+  n10 [shape="square", label="10"];
+  n11 [shape="square", label="11"];
+  n12 [shape="square", label="12"];
+
+  n3 -- n2 -- n1 -- n7 -- n6 -- n8 -- n9;
+
+  n4 -- n0 -- F -- G -- J -- P -- Q -- O -- L -- C -- A;
+
+  U -- T -- V -- B -- H -- N -- S;
+
+  D -- I -- K;
+
+  M -- R -- X -- n10 -- n11 -- n12;
+
+  /**
+   * I was going to include these dashed lines
+   * to indicate lines which exist physically but
+   * aren't in use. However, they make the graph too messy.
+   */
+   
+  /* A -- B [style="dashed"];
+  A -- D [style="dashed"]; */
+
+}
+
