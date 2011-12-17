@@ -1,0 +1,17 @@
+
+Ideas
+=====
+
+Do what's in the Google Doc
+
+To lay out the lines, just start with a straight line connecting the two
+points, then add an intermediate point off to the side of the first obstacle,
+curve the line to go through that point, and repeat.
+
+What if another obstacle arises along a curve?
+
+  Don't use that curve.
+
+Use a backtracking algorithm to try out going on either side of each obstacle, as
+well as possibly trying different distances out from each obstacle.
+
