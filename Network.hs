@@ -42,3 +42,4 @@ data Network = Network
   , nLines     :: [Line]
   , nLineCount :: Int
   } deriving (Eq, Ord, Read, Show)
+
