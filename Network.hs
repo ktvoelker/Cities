@@ -1,8 +1,6 @@
 
 module Network where
 
-import qualified Data.Set as Set
-
 import Space
 
 data Node = Node
@@ -31,14 +29,14 @@ data Color = Color
   } deriving (Eq, Ord, Read, Show)
 
 data Line = Line
-  { lEdges  :: Set.Set Edge
+  { lEdges  :: [Edge]
   , lName   :: String
   , lSymbol :: Symbol
   , lColor  :: Color
   } deriving (Eq, Ord, Read, Show)
 
 data Network = Network
-  { nNodes     :: Set.Set Node
+  { nNodes     :: [Node]
   , nLines     :: [Line]
   , nLineCount :: Int
   } deriving (Eq, Ord, Read, Show)

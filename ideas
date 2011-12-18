@@ -2,6 +2,10 @@
 Ideas
 =====
 
+PROBLEM: apparently I made a really bad assumption in a bunch of the Haskell code:
+that there's a 1:1 correspondence between edges in the Network and edges in the Layout.
+But each network edge may need a bunch of layout edges.
+
 Do what's in the Google Doc
 
 To lay out the lines, just start with a straight line connecting the two
