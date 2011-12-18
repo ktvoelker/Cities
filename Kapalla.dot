@@ -94,7 +94,16 @@ graph "Kapalla" {
   n9 [shape="square", label="9"];
   n10 [shape="square", label="10"];
   n11 [shape="square", label="11"];
-  n12 [shape="square", label="12"];
+
+  subgraph cluster_n12n20 {
+    n12 [shape="square", label="12"];
+    n20 [shape="square", label="20"];
+  }
+
+  n21 [shape="square", label="21"];
+  n22 [shape="square", label="22"];
+
+  n8 -- n21 -- n20 -- n22;
 
   n3 -- n2 -- n1 -- n7 -- n6 -- n8 -- n9;
 
