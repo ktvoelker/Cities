@@ -2,9 +2,21 @@
 TODO
 ====
 
-The layout code is really awful.
+Port existing code to JS
 
-  Don't rely on complicated comparisons with the Network to determine what is and
-  isn't complete: design the layout so its initial value has empty slots, and it is
-  intrinsically clear when it's complete.
+When drawing the layout, we need to do something so that lines which share
+edges aren't drawn right on top of each other.
+
+  The basic concept here is that there are numerous "positions" along each
+  edge: position 0 lies perfectly along the edge, position 1 is offset a bit in
+  one direction, position -1 is offset the same amount in the other direction,
+  and so on.
+
+  When drawing a line, greedily consume the available position with the lowest
+  absolute value at each edge, and mark that position as no longer available at
+  that edge.
+
+  When deciding between two positions with equal absolute value, choose the one
+  which matches the sign of the position used for that line at the previous
+  edge. If there is no previous edge for that line, choose arbitrarily.
 
