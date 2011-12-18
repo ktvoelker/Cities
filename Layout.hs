@@ -2,6 +2,8 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 module Layout where
 
+import Data.List
+
 import Network
 import Puzzle
 import Space
@@ -26,15 +28,18 @@ instance Puzzle Layout Network where
       then -- We've finished this edge, so go on to the next.
         choices net lay { lLines = ([] : curLayLine) : tail (lLines lay) }
       else -- We're in the middle of this edge.
-        [] -- TODO remove
         -- Extend layout with all remaining endpoints as choices.
-        -- TODO
+        map ((\x -> lay { lLines =
+          ((x : curLayEdge) : tail curLayLine) : tail (lLines lay) }) . fst)
         -- Filter out endpoints further from the goal than the old endpoint.
-        -- TODO
+        $ filter ((<= curDistance) . snd)
         -- Sort the new endpoints by distance from the goal.
-        -- TODO
+        $ sortBy (\x y -> compare (snd x) (snd y))
+        $ map (\x -> (x, distance x (eTo curNetEdge)))
+        -- Filter out endpoints that are in conflict with a node.
+        $ filter (not . conflict net curNetEdge)
         -- Find all possible extensions of the partial edge.
-        -- TODO
+        $ possibleExtensions curLayEdge
     where
       curNetLine = lEdges $ head $ drop (nLineCount net - lLineCount lay) $ nLines net
       curLayLine = head $ lLines lay
@@ -42,4 +47,11 @@ instance Puzzle Layout Network where
       lenCurLayLine = length curLayLine
       curNetEdge = head curNetLine
       curLayEdge = head curLayLine
+      curDistance = distance (head curLayEdge) (eTo curNetEdge)
+
+conflict :: Network -> Edge -> Pos -> Bool
+conflict net edge pos = False
+
+possibleExtensions :: [Pos] -> [Pos]
+possibleExtensions layEdge = []
 
