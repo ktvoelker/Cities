@@ -50,8 +50,9 @@ instance Puzzle Layout Network where
       curDistance = distance (head curLayEdge) (eTo curNetEdge)
 
 conflict :: Network -> Edge -> Pos -> Bool
-conflict net edge pos = False
+conflict net edge pos = pos /= eTo edge && pos `elem` map nPos (nNodes net)
 
 possibleExtensions :: [Pos] -> [Pos]
-possibleExtensions layEdge = []
+possibleExtensions (x : _) =
+  [x `plus` Vec xd yd | xd <- [-1, 0, 1], yd <- [-1, 0, 1], xd /= 0 || yd /= 0]
 
