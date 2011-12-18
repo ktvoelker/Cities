@@ -9,44 +9,61 @@ import Puzzle
 import Space
 
 data Layout = Layout
-  { lLines     :: [[[Pos]]]
-  , lLineCount :: Int
+  { lLines    :: [[[Pos]]]  -- Completed lines
+  , lRemLines :: [Line]     -- Lines not yet finished
+  , lCurLine  :: [[Pos]]    -- Completed edges in the current line
+  , lRemEdges :: [Edge]     -- Edges not yet finished in the current line
+  , lCurEdge  :: [Pos]      -- The current edge in the current line
   } deriving (Eq, Ord, Read, Show)
 
-initialLayout net = Layout [[[eFrom $ last $ lEdges $ last $ nLines net]]] 1
+initialLayout net = Layout
+  { lLines     = []
+  , lRemLines  = lines
+  , lCurLine   = []
+  , lRemEdges  = edges
+  , lCurEdge   = [eFrom $ head edges]
+  }
+  where
+    lines = nLines net
+    edges = lEdges $ head lines
 
 instance Puzzle Layout Network where
-  solved net lay =
-    nLineCount net == lLineCount lay
-    && (length $ lEdges $ head $ nLines net) == (length $ head $ lLines lay)
-  choices net lay =
-    if lenCurNetLine == lenCurLayLine
-    then -- We've finished this line, so go on to the next.
-      choices net Layout { lLines = [[]] : lLines lay, lLineCount = lLineCount lay + 1 }
-    else -- We're in the middle of this line.
-      if eTo curNetEdge == head curLayEdge
-      then -- We've finished this edge, so go on to the next.
-        choices net lay { lLines = ([] : curLayLine) : tail (lLines lay) }
-      else -- We're in the middle of this edge.
-        -- Extend layout with all remaining endpoints as choices.
-        map ((\x -> lay { lLines =
-          ((x : curLayEdge) : tail curLayLine) : tail (lLines lay) }) . fst)
-        -- Filter out endpoints further from the goal than the old endpoint.
-        $ filter ((<= curDistance) . snd)
-        -- Sort the new endpoints by distance from the goal.
-        $ sortBy (\x y -> compare (snd x) (snd y))
-        $ map (\x -> (x, distance x (eTo curNetEdge)))
-        -- Filter out endpoints that are in conflict with a node.
-        $ filter (not . conflict net curNetEdge)
-        -- Find all possible extensions of the partial edge.
-        $ possibleExtensions curLayEdge
+  solved net lay = null $ lRemLines lay
+  choices net lay@Layout { lRemEdges = [] } =
+    [Layout
+      { lLines    = lCurLine lay : lLines lay
+      , lRemLines = lines
+      , lCurLine  = []
+      , lRemEdges = edges
+      , lCurEdge  = [eFrom $ head edges]
+      }]
     where
-      curNetLine = lEdges $ head $ drop (nLineCount net - lLineCount lay) $ nLines net
-      curLayLine = head $ lLines lay
-      lenCurNetLine = length curNetLine
-      lenCurLayLine = length curLayLine
-      curNetEdge = head curNetLine
-      curLayEdge = head curLayLine
+      lines = tail $ lRemLines lay
+      edges = lEdges $ head lines
+  choices net lay
+    | head (lCurEdge lay) == eTo (head $ lRemEdges lay) =
+    [lay
+      { lCurLine  = lCurEdge lay : lCurLine lay
+      , lRemEdges = edges
+      , lCurEdge  = [eFrom $ head edges]
+      }]
+    where
+      edges = tail $ lRemEdges lay
+  choices net lay =
+    -- Extend layout with all remaining endpoints as choices.
+    map ((\x -> lay { lCurEdge = x : lCurEdge lay }) . fst)
+    -- Filter out endpoints further from the goal than the old endpoint.
+    $ filter ((<= curDistance) . snd)
+    -- Sort the new endpoints by distance from the goal.
+    $ sortBy (\x y -> compare (snd x) (snd y))
+    $ map (\x -> (x, distance x (eTo curNetEdge)))
+    -- Filter out endpoints that are in conflict with a node.
+    $ filter (not . conflict net curNetEdge)
+    -- Find all possible extensions of the partial edge.
+    $ possibleExtensions curLayEdge
+    where
+      curNetEdge = head $ lRemEdges lay
+      curLayEdge = lCurEdge lay
       curDistance = distance (head curLayEdge) (eTo curNetEdge)
 
 conflict :: Network -> Edge -> Pos -> Bool

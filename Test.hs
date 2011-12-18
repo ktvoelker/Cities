@@ -19,7 +19,7 @@ testNetwork = Network
       , lColor  = Color 0 0 0
       }
     , Line
-      { lEdges  = [Edge (Pos 3 3) (Pos 5 5), Edge (Pos 1 1) (Pos 3 3)]
+      { lEdges  = [Edge (Pos 1 1) (Pos 3 3), Edge (Pos 3 3) (Pos 5 5)]
       , lName   = "Foobarbaz"
       , lSymbol = Symbol (Color 0 0 0) "FB" Circle
       , lColor  = Color 0 0 0

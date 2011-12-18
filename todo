@@ -1,0 +1,10 @@
+
+TODO
+====
+
+The layout code is really awful.
+
+  Don't rely on complicated comparisons with the Network to determine what is and
+  isn't complete: design the layout so its initial value has empty slots, and it is
+  intrinsically clear when it's complete.
+
