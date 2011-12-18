@@ -29,17 +29,18 @@ initialLayout net = Layout
 
 instance Puzzle Layout Network where
   solved net lay = null $ lRemLines lay
+  choices net lay | solved net lay = []
   choices net lay@Layout { lRemEdges = [] } =
     [Layout
       { lLines    = lCurLine lay : lLines lay
       , lRemLines = lines
       , lCurLine  = []
       , lRemEdges = edges
-      , lCurEdge  = [eFrom $ head edges]
+      , lCurEdge  = if null edges then [] else [eFrom $ head edges]
       }]
     where
       lines = tail $ lRemLines lay
-      edges = lEdges $ head lines
+      edges = if null lines then [] else lEdges $ head lines
   choices net lay
     | head (lCurEdge lay) == eTo (head $ lRemEdges lay) =
     [lay
