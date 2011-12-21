@@ -1,12 +1,7 @@
 
-const Vec = typecheck("Vec", [Int, Int], function(xDiff, yDiff) {
-  this.xDiff = xDiff;
-  this.yDiff = yDiff;
-});
+const Vec = Struct("Vec", [['xDiff', Int], ['yDiff', Int]], function() { });
 
-const Pos = typecheck("Pos", [Int, Int], function(xPos, yPos) {
-  this.xPos = xPos;
-  this.yPos = yPos;
+const Pos = Struct("Pos", [['xPos', Int], ['yPos', Int]], function() {
   this.distance = typecheck("Pos.distance", [Pos], function(other) {
     return Math.sqrt(
       Math.pow(this.xPos - other.xPos, 2) + Math.pow(this.yPos - other.yPos, 2));

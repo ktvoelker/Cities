@@ -4,6 +4,12 @@ TODO
 
 Port existing code to JS
 
+  Port the test data
+
+  Port the generic backtracker
+
+  Port the layout logic
+
 When drawing the layout, we need to do something so that lines which share
 edges aren't drawn right on top of each other.
 
